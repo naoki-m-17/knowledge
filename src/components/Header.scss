@@ -1,0 +1,81 @@
+.header {
+	background-color: #1a1a1a;
+	border-bottom: 1px solid #404040;
+	padding: 1rem 0;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+
+	&__container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 2rem;
+	}
+
+	&__logo {
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		transition: opacity 0.2s;
+
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+
+	&__nav {
+		display: flex;
+		gap: 1.5rem;
+		align-items: center;
+	}
+
+	&__navLink {
+		color: #ededed;
+		text-decoration: none;
+		font-weight: 500;
+		padding: 0.5rem 0;
+		transition: color 0.2s;
+		position: relative;
+
+		&:hover {
+			color: #60a5fa;
+		}
+
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 0;
+			height: 2px;
+			background-color: #60a5fa;
+			transition: width 0.2s;
+		}
+
+		&:hover::after {
+			width: 100%;
+		}
+	}
+}
+
+// レスポンシブ対応
+@media (max-width: 768px) {
+	.header {
+		&__container {
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		&__nav {
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 1rem;
+		}
+	}
+}
+

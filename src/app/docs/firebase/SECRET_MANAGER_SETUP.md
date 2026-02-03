@@ -57,10 +57,10 @@ gcloud auth login
 
 - Firebase Consoleから確認
 - または、デプロイ済みのURLから確認：
-  - URL形式: `https://{BACKEND_ID}--{PROJECT_ID}.{REGION}.hosted.app/`
-  - 例: `https://develop--sutekina-omise-test.asia-east1.hosted.app/`
-    - プロジェクトID: `sutekina-omise-test`
-    - バックエンドID: `develop`
+    - URL形式: `https://{BACKEND_ID}--{PROJECT_ID}.{REGION}.hosted.app/`
+    - 例: `https://develop--sutekina-omise-test.asia-east1.hosted.app/`
+        - プロジェクトID: `sutekina-omise-test`
+        - バックエンドID: `develop`
 
 #### バックエンドIDの確認方法
 

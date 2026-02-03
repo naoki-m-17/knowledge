@@ -4,21 +4,21 @@ import ReactMarkdown from "react-markdown";
 import fs from "fs";
 import path from "path";
 import { getFileNameFromSlug } from "@/lib/docs-server";
-import "../firebase.scss";
+import "../javascript.scss";
 
-interface FirebaseDocPageProps {
+interface JavascriptDocPageProps {
 	params: Promise<{ slug: string }>;
 }
 
-const FirebaseDocPage: FC<FirebaseDocPageProps> = async ({ params }) => {
+const JavascriptDocPage: FC<JavascriptDocPageProps> = async ({ params }) => {
 	const { slug } = await params;
-	const fileName = getFileNameFromSlug("firebase", slug);
+	const fileName = getFileNameFromSlug("javascript", slug);
 
 	if (!fileName) {
 		notFound();
 	}
 
-	const filePath = path.join(process.cwd(), "src/app/docs/firebase", fileName);
+	const filePath = path.join(process.cwd(), "src/app/docs/javascript", fileName);
   
 	let content = "";
 	try {
@@ -38,5 +38,5 @@ const FirebaseDocPage: FC<FirebaseDocPageProps> = async ({ params }) => {
 	);
 };
 
-export default FirebaseDocPage;
+export default JavascriptDocPage;
 

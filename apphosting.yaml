@@ -2,15 +2,15 @@
 
 # ビルド設定
 build:
-  # ビルドコマンド
-  commands:
-    - pnpm install
-    - pnpm build
+    # ビルドコマンド
+    commands:
+        - pnpm install
+        - pnpm build
 
 # ランタイム設定
 runtime:
-  # Node.jsのバージョン
-  nodejs: 20
+    # Node.jsのバージョン
+    nodejs: 20
 
 # 環境変数（必要に応じて設定）
 # env:

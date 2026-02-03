@@ -1,17 +1,17 @@
 import { FC } from "react";
 import Link from "next/link";
-import "./github.scss";
+import "./javascript.scss";
 
-const GithubDocsPage: FC = () => {
+const JavascriptDocsPage: FC = () => {
 	return (
 		<div className="docs">
 			<main className="docs__main">
-				<h1 className="docs__title">Git/GitHubの操作手順</h1>
+				<h1 className="docs__title">JavaScript / TypeScript関連ドキュメント</h1>
 				<div className="docs__content">
 					<ul className="docs__list">
 						<li>
-							<Link href="/docs/github/workflow" className="docs__link">
-								Git/GitHub操作手順
+							<Link href="/docs/javascript/js-ts-basics" className="docs__link">
+								JavaScript / TypeScript の共通ルールと文法
 							</Link>
 						</li>
 					</ul>
@@ -26,5 +26,5 @@ const GithubDocsPage: FC = () => {
 	);
 };
 
-export default GithubDocsPage;
+export default JavascriptDocsPage;
 
