@@ -1,0 +1,26 @@
+# Firebase App Hosting 設定ファイル
+
+# ビルド設定
+build:
+  # ビルドコマンド
+  commands:
+    - pnpm install
+    - pnpm build
+
+# ランタイム設定
+runtime:
+  # Node.jsのバージョン
+  nodejs: 20
+
+# 環境変数（必要に応じて設定）
+# env:
+#   - variable: EXAMPLE_VAR
+#     value: example_value
+#     secret: false
+
+# リダイレクト設定（必要に応じて）
+# redirects:
+#   - source: /old-path
+#     destination: /new-path
+#     type: 301
+

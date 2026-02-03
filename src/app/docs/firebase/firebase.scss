@@ -1,0 +1,215 @@
+$this: ".docs";
+
+#{$this} {
+  min-height: 100vh;
+  padding: 2rem;
+
+  &__main {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--foreground);
+  }
+
+  &__content {
+    margin-bottom: 3rem;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__list li {
+    margin-bottom: 1rem;
+  }
+
+  &__link {
+    font-size: 1.125rem;
+    color: var(--foreground);
+    text-decoration: underline;
+    text-decoration-color: rgba(var(--foreground-rgb, 0, 0, 0), 0.3);
+    transition: text-decoration-color 0.2s;
+
+    &:hover {
+      text-decoration-color: var(--foreground);
+    }
+  }
+
+  &__back {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(var(--foreground-rgb, 0, 0, 0), 0.1);
+  }
+
+  &__backLink {
+    font-size: 1rem;
+    color: var(--foreground);
+    text-decoration: underline;
+    text-decoration-color: rgba(var(--foreground-rgb, 0, 0, 0), 0.3);
+    transition: text-decoration-color 0.2s;
+
+    &:hover {
+      text-decoration-color: var(--foreground);
+    }
+  }
+
+  &__article {
+    margin-top: 2rem;
+    line-height: 1.8;
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: var(--foreground);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--foreground);
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: var(--foreground);
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--foreground);
+    }
+
+    ul,
+    ol {
+      margin-bottom: 1rem;
+      padding-left: 2rem;
+      color: var(--foreground);
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    code {
+      background-color: rgba(var(--foreground-rgb, 0, 0, 0), 0.1);
+      padding: 0.2em 0.4em;
+      border-radius: 3px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+
+    pre {
+      background-color: rgba(var(--foreground-rgb, 0, 0, 0), 0.05);
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+
+      code {
+        background-color: transparent;
+        padding: 0;
+      }
+    }
+
+    blockquote {
+      border-left: 4px solid rgba(var(--foreground-rgb, 0, 0, 0), 0.2);
+      padding-left: 1rem;
+      margin-left: 0;
+      margin-bottom: 1rem;
+      color: var(--foreground);
+      opacity: 0.9;
+    }
+
+    a {
+      color: var(--foreground);
+      text-decoration: underline;
+      text-decoration-color: rgba(var(--foreground-rgb, 0, 0, 0), 0.3);
+      transition: text-decoration-color 0.2s;
+
+      &:hover {
+        text-decoration-color: var(--foreground);
+      }
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+
+    th,
+    td {
+      border: 1px solid rgba(var(--foreground-rgb, 0, 0, 0), 0.2);
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: rgba(var(--foreground-rgb, 0, 0, 0), 0.05);
+      font-weight: 600;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #{$this} {
+    &__link,
+    &__backLink {
+      text-decoration-color: rgba(255, 255, 255, 0.3);
+
+      &:hover {
+        text-decoration-color: var(--foreground);
+      }
+    }
+
+    &__back {
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &__article {
+      code {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      pre {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      blockquote {
+        border-left-color: rgba(255, 255, 255, 0.2);
+      }
+
+      a {
+        text-decoration-color: rgba(255, 255, 255, 0.3);
+
+        &:hover {
+          text-decoration-color: var(--foreground);
+        }
+      }
+
+      th,
+      td {
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      th {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+  }
+}
+
