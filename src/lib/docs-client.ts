@@ -23,4 +23,3 @@ export const formatCategoryName = (name: string): string => {
 	};
 	return nameMap[name] || name.charAt(0).toUpperCase() + name.slice(1);
 };
-
