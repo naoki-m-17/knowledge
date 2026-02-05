@@ -8,6 +8,7 @@
 
 - **Would you like to use TypeScript? → Yes**
     - 型安全性を確保し、フロントエンドエンジニアとしての品質を担保するため。
+    - TypeScript の基本的な概念については、[JavaScript / TypeScript の共通ルールと文法](../javascript/js-ts-basics.md) を参照してください。
 - **Would you like to use ESLint? → Yes**
     - コードの品質を一定に保ち、構文エラーを自動検知するため。
 - **Would you like to use Tailwind CSS? → No**

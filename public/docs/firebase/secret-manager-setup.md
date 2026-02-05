@@ -1,4 +1,4 @@
-# Firebase App Hosting - Secret Manager 権限付与マニュアル
+# Firebase App Hosting: Secret Manager 権限付与マニュアル
 
 ## 概要
 

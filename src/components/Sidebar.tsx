@@ -4,7 +4,7 @@ import { FC, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DocCategory, formatCategoryName } from "@/lib/docs-client";
+import { DocCategory, formatDisplayName } from "@/lib/docs-client";
 import "./Sidebar.scss";
 
 interface SidebarProps {
@@ -92,18 +92,18 @@ const Sidebar: FC<SidebarProps> = ({ categories }) => {
 									className="sidebarMenuCategoryButton"
 									onClick={() => toggleCategory(category.name)}
 								>
-									<span>{formatCategoryName(category.name)}</span>
+									<span>{formatDisplayName(category.name)}</span>
 									<span className="sidebarMenuCategoryButtonIcon">{isOpen ? "▽" : "▷"}</span>
 								</button>
 								{isOpen && (
 									<ul className="sidebarMenuCategoryList">
-										{category.files.map((file) => (
-											<li key={file.slug}>
+										{category.articles.map((article) => (
+											<li key={article.slug}>
 												<Link
-													href={file.path}
-													className={`sidebarMenuCategoryListLink ${pathname === file.path ? "sidebarMenuCategoryListLink-active" : ""}`}
+													href={article.path}
+													className={`sidebarMenuCategoryListArticle ${pathname === article.path ? "sidebarMenuCategoryListArticle-active" : ""}`}
 												>
-													{file.name}
+													{article.name}
 												</Link>
 											</li>
 										))}

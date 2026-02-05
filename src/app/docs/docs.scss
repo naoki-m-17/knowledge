@@ -1,0 +1,92 @@
+main {
+	padding: 2vw 4vw;
+
+	h1 {
+		font-size: 28px;
+		font-weight: bold;
+		margin: 40px 0;
+	}
+	h2 {
+		font-size: 20px;
+		font-weight: bold;
+		margin: 32px 0;
+	}
+	h3 {
+		font-size: 16px;
+		font-weight: bold;
+		margin: 24px 0;
+	}
+
+	p {
+		line-height: 2;
+
+		code {
+			background-color: rgba(255, 255, 255, 0.1);
+			padding: 0.2em 0.4em;
+			border-radius: 3px;
+			font-family: monospace;
+			font-size: 0.9em;
+		}
+	}
+	pre {
+		background-color: rgba(255, 255, 255, 0.1);
+		padding: 1rem;
+		border-radius: 4px;
+		overflow-x: auto;
+		margin: 1rem 0;
+
+		code {
+			background-color: transparent;
+			padding: 0;
+			font-family: monospace;
+			font-size: 0.9em;
+		}
+	}
+	a {
+		color: #60a5fa;
+		text-decoration: underline;
+		text-decoration-color: rgba(96, 165, 250, 0.4);
+
+		&:hover {
+			color: #93c5fd;
+			text-decoration-color: rgba(147, 197, 253, 0.6);
+		}
+	}
+
+	ul,
+	ol {
+		margin-bottom: 1rem;
+		padding-left: 2rem;
+	}
+
+	li {
+		margin-bottom: 0.5rem;
+	}
+
+	blockquote {
+		border-left: 4px solid rgba(255, 255, 255, 0.2);
+		padding-left: 1rem;
+		margin-left: 0;
+		margin-bottom: 1rem;
+		opacity: 0.9;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-bottom: 1rem;
+	}
+
+	th,
+	td {
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		padding: 0.5rem;
+		text-align: left;
+	}
+
+	th {
+		background-color: rgba(255, 255, 255, 0.05);
+		font-weight: bold;
+	}
+}
+

@@ -1,4 +1,4 @@
-export interface DocFile {
+export interface DocArticle {
 	name: string;
 	slug: string;
 	path: string;
@@ -7,19 +7,14 @@ export interface DocFile {
 export interface DocCategory {
 	name: string;
 	path: string;
-	files: DocFile[];
+	articles: DocArticle[];
 }
 
-/**
-* カテゴリ名を表示用に変換（クライアントサイドで使用可能）
-*/
-export const formatCategoryName = (name: string): string => {
-	const nameMap: Record<string, string> = {
-		firebase: "Firebase",
-		github: "GitHub",
-		nextjs: "Next.js",
-		react: "React",
-		javascript: "JavaScript / TypeScript",
-	};
-	return nameMap[name] || name.charAt(0).toUpperCase() + name.slice(1);
+// 名前を表示用に変換（カテゴリ名・記事名）
+export const formatDisplayName = (name: string): string => {
+	return name
+		.replace(/[_-]/g, " ")
+		.split(" ")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+		.join(" ");
 };
