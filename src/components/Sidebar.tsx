@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DocCategory, formatDisplayName } from "@/lib/docs-client";
+import logoImage from "@/assets/images/logo.png";
 import "./Sidebar.scss";
 
 interface SidebarProps {
@@ -63,8 +64,17 @@ const Sidebar: FC<SidebarProps> = ({ categories }) => {
 		});
 	};
 
+	const handleOverlayClick = () => {
+		if (typeof window !== "undefined" && window.innerWidth < 768) {
+			setOpenSidebar(false);
+		}
+	};
+
 	return (
 		<>
+			{openSidebar && typeof window !== "undefined" && window.innerWidth < 768 && (
+				<div className="overlaySidebar" onClick={handleOverlayClick} />
+			)}
 			<button
 				className={`toggleSidebar ${openSidebar ? "toggleSidebar-open" : ""}`}
 				onClick={() => setOpenSidebar(!openSidebar)}
@@ -74,7 +84,7 @@ const Sidebar: FC<SidebarProps> = ({ categories }) => {
 			<aside className={`sidebar ${openSidebar ? "sidebar-open" : ""}`}>
 				<Link href="/" className="sidebarLogo">
 					<Image
-						src="/logo.png"
+						src={logoImage}
 						alt="logo"
 						fill
 						style={{

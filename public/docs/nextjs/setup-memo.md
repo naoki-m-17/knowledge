@@ -4,8 +4,6 @@
 `pnpm create next-app@latest hoge`
 
 ## セットアップ時の選択肢とその意図
-エンジニア 松永尚樹による判断の記録。
-
 - **Would you like to use TypeScript? → Yes**
     - 型安全性を確保し、フロントエンドエンジニアとしての品質を担保するため。
     - TypeScript の基本的な概念については、[JavaScript / TypeScript の共通ルールと文法](../javascript/js-ts-basics.md) を参照してください。

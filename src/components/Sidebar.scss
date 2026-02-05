@@ -1,3 +1,18 @@
+.overlaySidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 99;
+	display: none;
+
+	@media (max-width: 768px) {
+		display: block;
+	}
+}
+
 .toggleSidebar {
 	position: fixed;
 	left: 0;
@@ -16,6 +31,14 @@
 	z-index: 101;
 	transition: left 0.1s ease;
 
+	@media (max-width: 768px) {
+		top: auto;
+		bottom: 0px;
+		width: 24px;
+		height: 100px;
+		filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.2));
+	}
+
 	&:hover {
 		background-color: #2a2a2a;
 	}
@@ -32,6 +55,9 @@
 }
 
 .sidebar {
+	position: fixed;
+	left: 0;
+	top: 0;
 	width: 0;
 	height: 100vh;
 	background-color: #1a1a1a;
@@ -40,6 +66,7 @@
 	flex-direction: column;
 	overflow: hidden;
 	transition: width 0.1s ease;
+	z-index: 100;
 
 	&-open {
 		width: 280px;

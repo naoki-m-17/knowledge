@@ -5,6 +5,7 @@ import Link from "next/link";
 import fs from "fs";
 import path from "path";
 import { getArticleNameFromSlug } from "@/lib/docs-server";
+import CodeBlock from "@/components/CodeBlock";
 import "../../docs.scss";
 
 interface DocPageProps {
@@ -82,6 +83,9 @@ const DocPage: FC<DocPageProps> = async ({ params }) => {
 							{children}
 						</Link>
 					);
+				},
+				pre: ({ children, ...props }) => {
+					return <CodeBlock {...props}>{children}</CodeBlock>;
 				},
 			}}
 		>
