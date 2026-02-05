@@ -37,6 +37,9 @@ export const docsOrderConfig: DocsOrderConfig = {
 			name: "firebase",
 			articles: [
 				"secret-manager-setup",
+				"next-image-404",
+				"next-image-diagnosis",
+				"next-image-fix",
 			],
 		},
 		{
