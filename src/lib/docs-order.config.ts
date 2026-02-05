@@ -1,75 +1,85 @@
-// サイドバーのカテゴリーと記事の表示順序を定義する設定ファイル
-// 開発時に順序設定にない項目がある場合、ターミナル（Next.js開発サーバーを実行しているターミナル）に警告を表示した上で、カテゴリーや記事は自動的に末尾に追加されます
+// サイドバーのカテゴリーと記事の表示順序と日本語名を定義する設定ファイル
 
-export interface DocsOrderConfig {
+export interface DocsConfig {
 	categories: Array<{
-		name: string; // カテゴリー名
-		articles: string[]; // 記事のslug
+		name: string; // slug（カテゴリー）
+		displayName: string; // カテゴリー名
+		articles: Array<{
+			slug: string; // slug（記事）
+			displayName: string; // 記事名
+		}>;
 	}>;
 }
 
-export const docsOrderConfig: DocsOrderConfig = {
+export const docsConfig: DocsConfig = {
 	categories: [
 		{
 			name: "environment-setup",
+			displayName: "環境構築",
 			articles: [
-				"m5-clean-arch",
-				"homebrew-shell-setup",
-				"nodejs-setup",
-				"firebase-setup",
-				"maintenance",
+				{ slug: "m5-clean-arch", displayName: "M5 Mac クリーンアーキテクチャ" },
+				{ slug: "homebrew-shell-setup", displayName: "Homebrew・Shell セットアップ" },
+				{ slug: "nodejs-setup", displayName: "Node.js セットアップ" },
+				{ slug: "firebase-setup", displayName: "Firebase セットアップ" },
+				{ slug: "maintenance", displayName: "メンテナンス" },
 			],
 		},
 		{
 			name: "hardware",
+			displayName: "ハードウェア",
 			articles: [
-				"m4-pro-vs-m5-comparison",
-				"core-architecture",
-				"memory-bandwidth",
-				"multitasking",
-				"power-efficiency",
-				"gpu-ai-acceleration",
-				"engineer-perspective",
-				"recommendations",
+				{ slug: "m4-pro-vs-m5-comparison", displayName: "M4 Pro vs M5 比較" },
+				{ slug: "core-architecture", displayName: "コアアーキテクチャ" },
+				{ slug: "memory-bandwidth", displayName: "メモリ帯域幅" },
+				{ slug: "multitasking", displayName: "マルチタスク" },
+				{ slug: "power-efficiency", displayName: "電力効率" },
+				{ slug: "gpu-ai-acceleration", displayName: "GPU・AI アクセラレーション" },
+				{ slug: "engineer-perspective", displayName: "エンジニア視点" },
+				{ slug: "recommendations", displayName: "推奨事項" },
 			],
 		},
 		{
 			name: "firebase",
+			displayName: "Firebase",
 			articles: [
-				"secret-manager-setup",
-				"next-image-404",
-				"next-image-diagnosis",
-				"next-image-fix",
+				{ slug: "secret-manager-setup", displayName: "Secret Manager セットアップ" },
+				{ slug: "next-image-404", displayName: "Next.js Image 404 エラー" },
+				{ slug: "next-image-diagnosis", displayName: "Next.js Image 診断" },
+				{ slug: "next-image-fix", displayName: "Next.js Image 修正" },
 			],
 		},
 		{
 			name: "github",
+			displayName: "GitHub",
 			articles: [
-				"workflow",
+				{ slug: "workflow", displayName: "ワークフロー" },
 			],
 		},
 		{
 			name: "javascript",
+			displayName: "JavaScript",
 			articles: [
-				"js-ts-basics",
-				"import-syntax",
+				{ slug: "js-ts-basics", displayName: "JavaScript・TypeScript 基礎" },
+				{ slug: "import-syntax", displayName: "import 構文" },
 			],
 		},
 		{
 			name: "nextjs",
+			displayName: "Next.js",
 			articles: [
-				"setup-memo",
-				"nextjs-features",
-				"use-client-rendering",
+				{ slug: "setup-memo", displayName: "セットアップメモ" },
+				{ slug: "nextjs-features", displayName: "Next.js 機能" },
+				{ slug: "use-client-rendering", displayName: "use client レンダリング" },
 			],
 		},
 		{
 			name: "react",
+			displayName: "React",
 			articles: [
-				"react-basics",
-				"props",
-				"hooks",
-				"naming-conventions",
+				{ slug: "react-basics", displayName: "React 基礎" },
+				{ slug: "props", displayName: "プロップス" },
+				{ slug: "hooks", displayName: "フック" },
+				{ slug: "naming-conventions", displayName: "命名規則" },
 			],
 		},
 	],

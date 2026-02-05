@@ -4,7 +4,7 @@ import { FC, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DocCategory, formatDisplayName } from "@/lib/docs-client";
+import { DocCategory } from "@/lib/docs-client";
 import logoImage from "@/assets/images/logo.png";
 import "./Sidebar.scss";
 
@@ -102,7 +102,7 @@ const Sidebar: FC<SidebarProps> = ({ categories }) => {
 									className="sidebarMenuCategoryButton"
 									onClick={() => toggleCategory(category.name)}
 								>
-									<span>{formatDisplayName(category.name)}</span>
+									<span>{category.displayName}</span>
 									<span className="sidebarMenuCategoryButtonIcon">{isOpen ? "▽" : "▷"}</span>
 								</button>
 								{isOpen && (

@@ -5,7 +5,8 @@ export interface DocArticle {
 }
 
 export interface DocCategory {
-	name: string;
+	name: string; // slug（英語）
+	displayName: string; // 日本語表示名
 	path: string;
 	articles: DocArticle[];
 }

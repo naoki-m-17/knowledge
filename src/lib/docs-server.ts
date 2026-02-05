@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
+import { cache } from "react";
 import type { DocArticle, DocCategory } from "./docs-client";
 import { formatDisplayName } from "./docs-client";
-import { docsOrderConfig } from "./docs-order.config";
+import { docsConfig } from "./docs-order.config";
 
 // 記事ファイル名からslugを生成（.md削除）
 export const generateSlug = (articleName: string): string => {
@@ -75,8 +76,8 @@ function sortByOrder<T>(
 	return [...orderedItems, ...unorderedItems];
 }
 
-// docs配下のディレクトリ構造を読み込む（サーバーサイド専用）
-export const getDocsStructure = (): DocCategory[] => {
+// docs配下のディレクトリ構造を読み込む（cache関数でメモ化）
+export const getDocsStructure = cache((): DocCategory[] => {
 	const docsPath = path.join(process.cwd(), "public/docs");
 	const categoriesMap = new Map<string, DocCategory>();
 
@@ -96,10 +97,11 @@ export const getDocsStructure = (): DocCategory[] => {
 						if (articleEntry.isFile() && articleEntry.name.endsWith(".md")) {
 							const articleName = articleEntry.name;
 							const slug = generateSlug(articleName);
-							const displayName = formatDisplayName(articleName.replace(/\.md$/, ""));
+							// フォールバック用の表示名を生成
+							const fallbackDisplayName = formatDisplayName(articleName.replace(/\.md$/, ""));
 
 							articles.push({
-								name: displayName,
+								name: fallbackDisplayName, // 後で設定ファイルから上書きされる可能性がある
 								slug: slug,
 								path: `/docs/${entry.name}/${slug}`,
 							});
@@ -109,8 +111,10 @@ export const getDocsStructure = (): DocCategory[] => {
 					console.error(`Error reading category ${entry.name}:`, error);
 				}
 
+				// nameは英語名のまま（Sidebarでキーとして使用されるため）
 				categoriesMap.set(entry.name, {
 					name: entry.name,
+					displayName: entry.name, // 後で設定ファイルから上書きされる可能性がある
 					path: `/docs/${entry.name}`,
 					articles: articles,
 				});
@@ -124,28 +128,48 @@ export const getDocsStructure = (): DocCategory[] => {
 	const orderedCategories: DocCategory[] = [];
 	const unorderedCategories: DocCategory[] = [];
 
-	// 順序設定に従ってカテゴリーを並べる
-	for (const categoryOrder of docsOrderConfig.categories) {
-		const category = categoriesMap.get(categoryOrder.name);
+	// 順序設定に従ってカテゴリーを並べる（設定ファイルの記述順でソート）
+	for (const categoryConfig of docsConfig.categories) {
+		const category = categoriesMap.get(categoryConfig.name);
 		if (category) {
-			// 記事の順序も適用
+			// カテゴリの日本語名を設定
+			category.displayName = categoryConfig.displayName;
+
+			// 記事の日本語名を設定ファイルから設定（sortByOrderの前に設定）
+			const articleDisplayNameMap = new Map(
+				categoryConfig.articles.map((art) => [art.slug, art.displayName])
+			);
+			for (const article of category.articles) {
+				const displayName = articleDisplayNameMap.get(article.slug);
+				if (displayName) {
+					article.name = displayName;
+				}
+			}
+
+			// 記事の順序も適用（設定ファイルの記述順でソート）
+			const articleSlugs = categoryConfig.articles.map((art) => art.slug);
 			category.articles = sortByOrder(
 				category.articles,
-				categoryOrder.articles,
+				articleSlugs,
 				(article) => article.slug,
-				`記事（カテゴリー: ${categoryOrder.name}）`
+				`記事（カテゴリー: ${categoryConfig.name}）`
 			);
+
 			orderedCategories.push(category);
-			categoriesMap.delete(categoryOrder.name);
+			categoriesMap.delete(categoryConfig.name);
 		} else if (process.env.NODE_ENV === "development") {
 			console.warn(
-				`[docs-order] 順序設定に存在しないカテゴリーが見つかりました: "${categoryOrder.name}"。このカテゴリーはファイルシステムに存在しません。`
+				`[docs-order] 順序設定に存在しないカテゴリーが見つかりました: "${categoryConfig.name}"。このカテゴリーはファイルシステムに存在しません。`
 			);
 		}
 	}
 
 	// フォールバック（順序設定にないカテゴリー・記事を末尾に追加）
 	for (const [categoryName, category] of categoriesMap.entries()) {
+		// フォールバック用の表示名を設定（既に設定されている場合はそのまま）
+		if (category.displayName === categoryName) {
+			category.displayName = formatDisplayName(categoryName);
+		}
 		unorderedCategories.push(category);
 		if (process.env.NODE_ENV === "development") {
 			console.warn(
@@ -155,4 +179,4 @@ export const getDocsStructure = (): DocCategory[] => {
 	}
 
 	return [...orderedCategories, ...unorderedCategories];
-};
+});

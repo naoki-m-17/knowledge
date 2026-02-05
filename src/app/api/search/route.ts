@@ -65,7 +65,7 @@ export async function GET(request: Request) {
 
 				if (matches.length > 0) {
 					results.push({
-						category: category.name,
+						category: category.displayName,
 						article: article,
 						matches: matches,
 					});
