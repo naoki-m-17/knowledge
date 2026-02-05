@@ -21,6 +21,19 @@ export const docsOrderConfig: DocsOrderConfig = {
 			],
 		},
 		{
+			name: "hardware",
+			articles: [
+				"m4-pro-vs-m5-comparison",
+				"core-architecture",
+				"memory-bandwidth",
+				"multitasking",
+				"power-efficiency",
+				"gpu-ai-acceleration",
+				"engineer-perspective",
+				"recommendations",
+			],
+		},
+		{
 			name: "firebase",
 			articles: [
 				"secret-manager-setup",

@@ -14,7 +14,7 @@
 }
 
 .toggleSidebar {
-	position: fixed;
+	position: absolute;
 	left: 0;
 	top: 40px;
 	transform: translateY(-50%);
@@ -28,14 +28,16 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	z-index: 101;
+	z-index: 102;
 	transition: left 0.1s ease;
 
 	@media (max-width: 768px) {
+		position: fixed;
 		top: auto;
 		bottom: 0px;
 		width: 24px;
 		height: 100px;
+		z-index: 101;
 		filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3)) drop-shadow(0 0 16px rgba(255, 255, 255, 0.2));
 	}
 
@@ -55,21 +57,27 @@
 }
 
 .sidebar {
-	position: fixed;
-	left: 0;
-	top: 0;
+	position: static;
 	width: 0;
 	height: 100vh;
 	background-color: #1a1a1a;
-	border-right: 1px solid #404040;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
 	transition: width 0.1s ease;
-	z-index: 100;
+	flex-shrink: 0;
+
+	@media (max-width: 768px) {
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 100;
+		border-right: 1px solid #404040;
+	}
 
 	&-open {
 		width: 280px;
+		border-right: 1px solid #404040;
 	}
 
 	&Logo {
@@ -117,7 +125,7 @@
 				&Icon {
 					font-size: 12px;
 					color: #9ca3af;
-					transition: transform 0.2s;
+					transition: transform 0.1s;
 				}
 			}
 
@@ -125,20 +133,18 @@
 				list-style: none;
 				padding: 0;
 				margin: 0;
-				background-color: #222222;
+				background-color: transparent;
 
 				&Article {
 					display: block;
 					padding: 0.625rem 1.5rem 0.625rem 2.5rem;
-					color: #d1d5db;
+					color: var(--foreground);
 					text-decoration: none;
 					font-size: 0.9375rem;
-					transition: background-color 0.2s, color 0.2s;
 					border-left: 3px solid transparent;
 			
 					&:hover {
 						background-color: #2a2a2a;
-						color: #60a5fa;
 					}
 			
 					&-active {

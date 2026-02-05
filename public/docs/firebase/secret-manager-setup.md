@@ -81,6 +81,8 @@ gcloud secrets describe SECRET_NAME --project PROJECT_ID
 
 ### ステップ5: Firebase App Hostingバックエンドに権限を付与
 
+**⚠️ 重要：** ブラウザのGoogle CloudコンソールでIAMポリシーを直接設定しても、権限が正しく反映されない場合があります。そのため、**必ずCLIコマンドを使用して権限を付与することを推奨します**。
+
 ```bash
 firebase apphosting:secrets:grantaccess SECRET_NAME \
   --project PROJECT_ID \
