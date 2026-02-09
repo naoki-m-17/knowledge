@@ -14,8 +14,8 @@
 │       │   ├── brew
 │       │   ├── git
 │       │   ├── fnm
-│       │   ├── gcloud           # Google Cloud SDK (brew install --cask で導入)
-│       │   └── firebase         # Firebase CLI (brew install firebase-cli で導入)
+│       │   ├── firebase         # Firebase CLI (brew install firebase-cli で導入)
+│       │   └── tree             # ディレクトリ構造可視化 (brew install tree で導入)
 │       └── Cellar/              # 各ツールの本体がバージョン別に格納される場所
 │
 └── Users/
@@ -30,7 +30,6 @@
         ├── .local/share/pnpm/   # Corepackが呼び出したpnpm本体 (PNPM_HOME)
         ├── .pnpm-store/         # パッケージの「実体」が保存される巨大な倉庫
         ├── .config/
-        │   ├── gcloud/          # gcloudの認証情報（gcloud auth で自動作成）
         │   └── configstore/    # firebase-cliの認証情報（firebase login で自動作成）
         └── src/                 # 開発プロジェクト（ホームディレクトリ直下に配置）
             └── my-next-app/
@@ -46,7 +45,7 @@
 
 1. [Homebrewとシェル環境のセットアップ](./homebrew-shell-setup.md) - システム基盤、パッケージマネージャー、シェル環境設定
 2. [Node.js環境構築](./nodejs-setup.md) - Node.jsとpnpmのセットアップ
-3. [Firebase設定](./firebase-setup.md) - Firebase / Google Cloud の認証設定（Firebase App Hostingを使用する場合）
+3. [Firebase設定](./firebase-setup.md) - Firebase CLIの認証設定（Firebase App Hostingを使用する場合）
 4. [メンテナンス](./maintenance.md) - 日常的なメンテナンスの習慣
 
 ## 総括

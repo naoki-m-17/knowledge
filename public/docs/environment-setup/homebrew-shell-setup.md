@@ -41,14 +41,13 @@ xcode-select --install
 ### 必須ツールの導入
 
 ```bash
-brew install fnm git firebase-cli
-brew install --cask google-cloud-sdk
+brew install fnm git firebase-cli tree
 ```
 
 - **fnm**: Fast Node Manager。Rust製で、Node.jsのバージョンを高速に切り替えます。
 - **git**: macOS標準よりも新しい、Homebrew版の最新Gitを使用します。
 - **firebase-cli**: Firebase App HostingやSecret Managerの操作に必要なCLIツールです。
-- **google-cloud-sdk**: Google Cloudの操作に必要なCLIツール。Firebase CLIが内部的にGoogle Cloudの権限を利用する際に必要です。
+- **tree**: ディレクトリ構造をツリー形式で可視化するコマンドです。
 
 ## 3. シェル環境設定 (.zshrc) の構築
 
@@ -81,16 +80,7 @@ export PNPM_HOME="$HOME/.local/share/pnpm"
 # PATHへの追加: pnpmコマンドをどこからでも叩けるようにします
 export PATH="$PNPM_HOME:$PATH"
 
-### 4. Google Cloud SDK の有効化
-# Google Cloud SDKのパスと補完機能を有効化します
-if [ -f '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc' ]; then 
-  . '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-fi
-if [ -f '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc' ]; then 
-  . '/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
-fi
-
-### 5. ターミナル表示（Gitブランチ表示など）
+### 4. ターミナル表示（Gitブランチ表示など）
 # Gitの状況をプロンプトに表示する設定
 if [[ -r /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh ]]; then
   source /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
@@ -106,7 +96,7 @@ GIT_PS1_SHOWUPSTREAM=auto        # 上流ブランチとの差分を表示
 setopt PROMPT_SUBST
 PS1='%F{green}%n@%m%f:%F{cyan}%1~%f%F{red}$(__git_ps1 "(%s)")%f\$ '
 
-### 6. 便利なエイリアス（任意）
+### 5. 便利なエイリアス（任意）
 alias gs='git status'
 alias p='pnpm'
 ```

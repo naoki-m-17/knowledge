@@ -18,42 +18,23 @@ firebase projects:list
 
 **確認方法**: `firebase projects:list` コマンドでプロジェクト一覧が表示されれば認証成功です。
 
-## Google Cloud SDK の認証
+## 補足: Google Cloud SDK（gcloudコマンド）について
 
-Google Cloud SDKを使用するための認証を行います。
+この環境構築では **Google Cloud SDK（gcloudコマンド）のインストールは不要** です。
 
-```bash
-# 1. gcloud自体のログイン
-gcloud auth login
+Firebase CLIは自身にバンドルされたライブラリを通じてGoogle CloudのAPI（Secret Manager API、IAM APIなど）を直接呼び出すため、`gcloud`コマンドのインストールは不要です。Secret Managerのアクセサー権限付与など、Firebase App Hostingに関連する主要な操作はFirebase CLIだけで完結します。
 
-# 2. ローカル開発でのプログラム用認証（ADC）の設定
-gcloud auth application-default login
-```
-
-**意味**: 
-- `gcloud auth login`: Google Cloudの操作に必要な認証を行います。
-- `gcloud auth application-default login`: ローカル開発環境（Next.jsからFirebase Admin SDKを使う場合など）での認証を設定します。認証情報は `~/.config/gcloud/application_default_credentials.json` に自動保存されます。
-
-**確認方法**: 以下のコマンドで認証状態を確認できます。
+例えば、Secret Managerの権限付与は以下のFirebase CLIコマンドで実行できます：
 
 ```bash
-gcloud auth list
+firebase apphosting:secrets:grantaccess SECRET_NAME \
+  --project PROJECT_ID \
+  --backend BACKEND_ID
 ```
 
-## 重要な注意事項
+詳しくは [Secret Manager 権限付与マニュアル](../firebase/secret-manager-setup.md) を参照してください。
 
-### GOOGLE_APPLICATION_CREDENTIALS環境変数は設定しない
-
-古い環境では `GOOGLE_APPLICATION_CREDENTIALS` 環境変数でJSON鍵ファイルを指定する方法がありましたが、**新環境では不要です**。
-
-上記の `gcloud auth application-default login` を実行することで、Firebaseのライブラリが自動的に認証情報を見つけてくれます。セキュリティ的にも、ディレクトリ構成のクリーンさにおいても、この方法が推奨されます。
-
-### Firebase CLIとGoogle Cloud SDKの両方が必要
-
-Firebase App HostingでSecret ManagerのIAMを操作する際は、Firebase CLIとGoogle Cloud SDKの両方がインストールされている必要があります。
-
-- **Firebase CLI**: App Hostingのバックエンド作成やデプロイ、シークレットの設定（`firebase apphosting:secrets:set`など）に使用します。
-- **Google Cloud SDK**: Firebase CLIが内部的にGoogle Cloudの権限を利用したり、CLIで解決できない詳細なIAM操作を行ったりするために必要です。
+**注意**: 将来的にGoogle Cloudの詳細なIAM操作やADC（Application Default Credentials）の設定が必要になった場合は、`brew install --cask google-cloud-sdk` で後からインストールできます。
 
 ## 次のステップ
 
