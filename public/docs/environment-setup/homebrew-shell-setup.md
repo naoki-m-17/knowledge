@@ -41,13 +41,30 @@ xcode-select --install
 ### 必須ツールの導入
 
 ```bash
-brew install fnm git firebase-cli tree
+brew install git firebase-cli tree
 ```
 
-- **fnm**: Fast Node Manager。Rust製で、Node.jsのバージョンを高速に切り替えます。
 - **git**: macOS標準よりも新しい、Homebrew版の最新Gitを使用します。
 - **firebase-cli**: Firebase App HostingやSecret Managerの操作に必要なCLIツールです。
 - **tree**: ディレクトリ構造をツリー形式で可視化するコマンドです。
+
+**注意**: Node.jsのバージョン管理には **Volta** を使用します。Voltaはユーザー領域（`~/.volta/`）に独立してインストールするため、Homebrewでは導入しません。これにより、Homebrewのパス競合を避け、開発ツール専用の「優先レーン」を確保できます。
+
+### Volta のインストール（ユーザー領域）
+
+VoltaはNode.js、npm、pnpmを一元管理するRust製の高速ツールです。`~/.volta/` にインストールすることで、権限トラブルを回避し、開発環境を独立させます。
+
+```bash
+curl https://get.volta.sh | bash
+```
+
+**意味**: Voltaの公式インストーラーを実行し、`~/.volta/` にバイナリを配置します。インストーラーは自動的に `.zshrc` に `VOLTA_HOME` と `PATH` の設定を追記します。
+
+**確認方法**: 新しいターミナルを開き、以下のコマンドでバージョンが表示されれば成功です。
+
+```bash
+volta --version
+```
 
 ## 3. シェル環境設定 (.zshrc) の構築
 
@@ -60,27 +77,21 @@ nano ~/.zshrc
 
 以下の内容を追記・保存してください（Ctrl+O で保存、Ctrl+X で閉じる）。
 
-**重要**: 設定の順序は重要です。Homebrewの初期化を最上部に配置することで、brewでインストールしたツールが他のツール（fnm等）の挙動に干渉することを防ぎます。
+**重要**: 設定の順序は重要です。Homebrewの初期化を最上部に配置することで、brewでインストールしたツールが他のツールの挙動に干渉することを防ぎます。Voltaの設定はインストーラーが自動的に `.zshrc` に追記するため、手動で追加する必要はありません。既存の `.zshrc` がある場合は、以下の内容を参考に不足分のみ追記してください。
 
 ```bash
 ### 1. Homebrewの有効化（最上部に配置）
 # Homebrewがインストールしたバイナリ(/opt/homebrew/bin)に優先的にパスを通します
 # 注意: この設定は必ず .zshrc の最上部に配置してください
-#       将来的にbrewで入れた他のツールがfnmの挙動に干渉する場合に備えます
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-### 2. fnm (Node.js管理人) の初期化
-# --use-on-cd: プロジェクト移動時に .node-version ファイルを自動検知して
-#              そのディレクトリ専用のNodeバージョンに即座に切り替えます
-eval "$(fnm env --use-on-cd)"
+### 2. Volta（Node.js・pnpm管理人）の初期化
+# Voltaインストーラーが自動追記します。手動で追加する場合は以下を記述：
+# export VOLTA_HOME="$HOME/.volta"
+# export PATH="$VOLTA_HOME/bin:$PATH"
+# プロジェクトのpackage.jsonにVoltaのバージョン指定があれば、自動的に切り替わります
 
-### 3. pnpm の環境変数定義
-# PNPM_HOME: pnpmの実行ファイルを置く場所を指定
-export PNPM_HOME="$HOME/.local/share/pnpm"
-# PATHへの追加: pnpmコマンドをどこからでも叩けるようにします
-export PATH="$PNPM_HOME:$PATH"
-
-### 4. ターミナル表示（Gitブランチ表示など）
+### 3. ターミナル表示（Gitブランチ表示など）
 # Gitの状況をプロンプトに表示する設定
 if [[ -r /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh ]]; then
   source /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
@@ -96,8 +107,7 @@ GIT_PS1_SHOWUPSTREAM=auto        # 上流ブランチとの差分を表示
 setopt PROMPT_SUBST
 PS1='%F{green}%n@%m%f:%F{cyan}%1~%f%F{red}$(__git_ps1 "(%s)")%f\$ '
 
-### 5. 便利なエイリアス（任意）
-alias gs='git status'
+### 4. 便利なエイリアス
 alias p='pnpm'
 ```
 

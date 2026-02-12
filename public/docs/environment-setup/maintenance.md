@@ -24,6 +24,17 @@ Firebase CLIを最新版に更新します。
 brew upgrade firebase-cli
 ```
 
+### Volta更新
+
+Voltaはセルフアップデート機能を搭載しています。数ヶ月に一度、以下で最新版に更新します。
+
+```bash
+volta --version  # 現在のバージョンを確認
+volta upgrade    # 最新版へアップデート
+```
+
+**意味**: Volta本体を最新版に更新します。Node.jsやpnpmのバージョンは各プロジェクトの `package.json` で固定されているため、この更新だけでプロジェクトの動作に影響しません。
+
 ## ストレージのクリーンアップ
 
 ### pnpm倉庫の掃除
@@ -43,6 +54,9 @@ pnpm store prune
 定期的に、インストール済みのツールのバージョンを確認しておくと、問題の早期発見に役立ちます。
 
 ```bash
+# Voltaのバージョン確認
+volta --version
+
 # Node.jsのバージョン確認
 node --version
 
@@ -74,5 +88,15 @@ Homebrewの初期化が`.zshrc`の最上部に配置されているか確認し�
 cat ~/.zshrc | head -5
 ```
 
-最初の数行に `eval "$(/opt/homebrew/bin/brew shellenv)"` が含まれている必要があります。
+最初の数行に `eval "$(/opt/homebrew/bin/brew shellenv)"` が含まれている必要があります。Voltaを使用している場合は、`VOLTA_HOME` と `PATH` に `$VOLTA_HOME/bin` が含まれていることも確認してください。
+
+### Node.js環境の完全リセットが必要な場合
+
+Voltaは `~/.volta/` に全てを格納しているため、万が一開発環境が壊れた際は、このフォルダを削除するだけでNode環境だけを完全に初期化できます。OSやHomebrewには影響しません。
+
+```bash
+rm -rf ~/.volta
+```
+
+その後、[Homebrewとシェル環境のセットアップ](./homebrew-shell-setup.md) の Volta インストール手順から再実行してください。
 

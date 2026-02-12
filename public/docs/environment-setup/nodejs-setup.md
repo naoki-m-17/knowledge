@@ -1,37 +1,35 @@
 # Node.js環境構築
 
-このドキュメントでは、Node.jsとpnpmのセットアップを行います。
+このドキュメントでは、Voltaを使用してNode.jsとpnpmのセットアップを行います。
 
 ## Node.js の導入
 
-fnmを使用してNode.jsのLTS（Long Term Support）版をインストールします。
+Voltaを使用してNode.jsのLTS（Long Term Support）版をインストールします。Voltaは [Homebrewとシェル環境のセットアップ](./homebrew-shell-setup.md) で既にインストール済みである必要があります。
 
 ```bash
-fnm install --lts # 安定版(LTS)をダウンロード
-fnm use --lts     # 現在のセッションでそのバージョンを使用
+volta install node@lts    # 最新のLTS版をダウンロードし、デフォルトに設定
 ```
 
 **意味**: 
-- `fnm install --lts`: 最新のLTS版Node.jsをダウンロードします。
-- `fnm use --lts`: 現在のターミナルセッションでLTS版を使用します。
+- `volta install node@lts`: 最新のLTS版Node.jsをダウンロードし、デフォルトのバージョンとして設定します。
+- プロジェクトごとに異なるバージョンが必要な場合は、後述の `volta pin` で自動的に切り替わります。
 
-**確認方法**: 以下のコマンドでNode.jsのバージョンが表示されれば成功です。
+**確認方法**: 以下のコマンドでNode.jsとnpmのバージョンが表示されれば成功です。
 
 ```bash
 node --version
 npm --version
 ```
 
-## Corepack による pnpm 有効化
+## pnpm の導入
 
-Node.jsに内蔵されているCorepack機能を使用してpnpmを有効化します。
+Voltaを使用してpnpmをインストールします。Node.jsとは別に、pnpmのバージョンもプロジェクトごとに固定可能です。
 
 ```bash
-corepack enable                      # Node.js内蔵のパッケージマネージャー管理機能をONにする
-corepack prepare pnpm@latest --activate # 最新のpnpmを準備し、デフォルトで使用する
+volta install pnpm
 ```
 
-**Corepackの役割**: これにより、`npm install -g pnpm` という古い手法を使わずに、Node.jsの機能としてpnpmを安全に呼び出せます。
+**Voltaによるpnpm管理のメリット**: Node.jsだけでなく、pnpmのバージョンもプロジェクトごとに固定できるため、パッケージインストール時の挙動のズレを防げます。
 
 **確認方法**: 以下のコマンドでpnpmのバージョンが表示されれば成功です。
 
@@ -41,16 +39,29 @@ pnpm --version
 
 ## プロジェクトでの使用
 
-プロジェクトごとに異なるNode.jsバージョンを使用する場合は、プロジェクトのルートディレクトリに `.node-version` ファイルを作成してください。
+プロジェクトで使用するNode.js（およびpnpm）のバージョンを固定するには、プロジェクトのルートディレクトリで `volta pin` コマンドを実行します。
 
 ```bash
 # プロジェクトディレクトリで実行
-echo "22" > .node-version
+volta pin node@22
+volta pin pnpm@9
 ```
 
-これにより、`cd`でそのディレクトリに移動した際に、自動的に指定したNode.jsバージョンに切り替わります（`.zshrc`で`fnm env --use-on-cd`を設定している場合）。
+**意味**: `package.json` に `volta` フィールドが自動追記され、チーム全員が同じバージョンで開発できます。
+
+**生成される package.json の例**:
+
+```json
+{
+  "volta": {
+    "node": "22.12.0",
+    "pnpm": "9.15.0"
+  }
+}
+```
+
+これにより、プロジェクトディレクトリに `cd` した際に、Voltaが自動的に指定したNode.jsとpnpmのバージョンに切り替えます。**「.node-version を作り忘れる」「切り替え忘れる」という事故が物理的に発生しなくなります。**
 
 ## 次のステップ
 
 Node.js環境の構築が完了したら、必要に応じて[Firebase設定](./firebase-setup.md)に進んでください。
-

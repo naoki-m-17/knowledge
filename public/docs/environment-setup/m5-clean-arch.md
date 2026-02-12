@@ -9,32 +9,27 @@
 ```
 / (Root)
 ├── opt/
-│   └── homebrew/                # 【PC共通】Homebrew管理特区
-│       ├── bin/                 # コマンドのリンク（git, fnm等）が集まる場所
+│   └── homebrew/                # 【汎用ツール特区】Homebrew管理
+│       ├── bin/                 # コマンドのリンク（git, firebase等）が集まる場所
 │       │   ├── brew
 │       │   ├── git
-│       │   ├── fnm
 │       │   ├── firebase         # Firebase CLI (brew install firebase-cli で導入)
 │       │   └── tree             # ディレクトリ構造可視化 (brew install tree で導入)
 │       └── Cellar/              # 各ツールの本体がバージョン別に格納される場所
 │
 └── Users/
     └── matsunaganaoki/          # 【ユーザー領域】 ~/
-        ├── .zshrc               # 全ての環境設定が記された心臓部
-        ├── .fnm/                # fnmが管理するNode.jsの各実体
-        │   └── node-versions/
-        │       └── v22.x.x/
-        │           └── bin/
-        │               ├── node
-        │               └── corepack (Node内蔵の門番)
-        ├── .local/share/pnpm/   # Corepackが呼び出したpnpm本体 (PNPM_HOME)
-        ├── .pnpm-store/         # パッケージの「実体」が保存される巨大な倉庫
+        ├── .zshrc               # Voltaのパス設定等、全ての環境設定が記された心臓部
+        ├── .volta/              # 【JS開発特区】VoltaがNode/npm/pnpmを全管理
+        │   ├── bin/             # node, npm, pnpm への入り口（Shim）
+        │   └── tools/           # Node v20, v22 等の実体（全てここに完結）
+        ├── .pnpm-store/         # pnpmのキャッシュ倉庫（Volta管理のpnpmがここを使用）
         ├── .config/
-        │   └── configstore/    # firebase-cliの認証情報（firebase login で自動作成）
+        │   └── configstore/     # firebase-cliの認証情報（firebase login で自動作成）
         └── src/                 # 開発プロジェクト（ホームディレクトリ直下に配置）
             └── my-next-app/
-                ├── .node-version # プロジェクトが要求するNodeバージョンを記載
-                └── node_modules  # storeへの「リンク」のみ。実体は置かない
+                ├── package.json # Voltaのバージョン情報がvoltaフィールドで自動追記
+                └── node_modules # storeへの「リンク」のみ。実体は置かない
 ```
 
 **重要**: `~/src`はホームディレクトリ直下（`~/Desktop`や`~/Documents`の外）に配置してください。iCloud Driveで「デスクトップ」や「書類」フォルダを同期設定にしている場合、`node_modules`を含むプロジェクトフォルダがiCloudの同期対象になると、大量のファイルスキャンでCPUとネットワークを無駄に消費してしまいます。
@@ -52,7 +47,13 @@
 
 これで、**「どこに何が入っているか、なぜそれが必要か」**が全て可視化されました。
 
-特に `.zshrc` に書き込んだ `eval "$(fnm env --use-on-cd)"` は、複数のNext.jsプロジェクトを抱えた際、「Nodeのバージョン違いでビルドエラーが起きる」という無駄なトラブルを100%防いでくれる、実務上の「防波堤」になります。
+Voltaを採用することで、**「どのプロジェクトで、どのNodeを使っているか」を一切意識する必要がなくなります。**
+
+1. プロジェクトに入る
+2. Voltaが `package.json` を見て、裏側で勝手にNodeとpnpmを切り替える
+3. `pnpm install` や `npm run dev` を打つだけ
+
+この「何も考えなくていい状態」こそが、初心者からプロまでが求める理想の開発環境です。`volta pin` コマンドを一度打てば、プロジェクトの定義ファイル自体にバージョンが刻まれるため、「.node-version を作り忘れる」「切り替え忘れる」という事故が物理的に発生しなくなります。
 
 あとは、現在利用中の筐体のターミナルで `cat ~/.zshrc` と打ってみて、ご自身で追加した「alias（エイリアス）」や「環境変数」がないかだけ確認してみてください。もしあれば、それを各セクションのドキュメントに追加すると、使い慣れた操作感も新マシンに移植できます。
 
