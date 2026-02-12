@@ -91,21 +91,55 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # export PATH="$VOLTA_HOME/bin:$PATH"
 # プロジェクトのpackage.jsonにVoltaのバージョン指定があれば、自動的に切り替わります
 
-### 3. ターミナル表示（Gitブランチ表示など）
-# Gitの状況をプロンプトに表示する設定
-if [[ -r /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh ]]; then
-  source /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
-fi
-
-# プロンプトのオプション表示設定
-GIT_PS1_SHOWDIRTYSTATE=true      # 変更ファイルがある場合に*を表示
-GIT_PS1_SHOWUNTRACKEDFILES=true  # 未追跡ファイルがある場合に%を表示
-GIT_PS1_SHOWSTASHSTATE=true      # stashがある場合に$を表示
-GIT_PS1_SHOWUPSTREAM=auto        # 上流ブランチとの差分を表示
-
-# プロンプトの色とレイアウトを定義
+### 3. ターミナル表示（Gitブランチ・状態表示）
+# 親ディレクトリ・ブランチ名・状態（Synced/Behind/Ahead/Stashed/Untracked/Unstaged/Staged）を表示
+# 外部ファイル不要で、gitが入っていれば動作します
 setopt PROMPT_SUBST
-PS1='%F{green}%n@%m%f:%F{cyan}%1~%f%F{red}$(__git_ps1 "(%s)")%f\$ '
+
+precmd() {
+  # 親ディレクトリの取得
+  local parent=$(basename "$(dirname "$PWD")")
+  if [[ "$PWD" == "$HOME" || "$parent" == "." || "$parent" == "/" ]]; then
+    PARENT_DIR=""
+  else
+    PARENT_DIR="$parent/"
+  fi
+
+  # Git情報の取得とカスタマイズ
+  local branch=$(git branch --show-current 2> /dev/null)
+  if [[ -n "$branch" ]]; then
+    local status_text="Synced"
+    local s_color="121" # 同期済み
+    local git_status=$(git status --branch --porcelain 2> /dev/null)
+
+    if [[ "$git_status" =~ "behind" ]]; then
+        status_text="Behind"
+        s_color="203" # リモートに更新あり
+    elif [[ "$git_status" =~ "ahead" ]]; then
+        status_text="Ahead"
+        s_color="117" # 未プッシュあり
+    elif [[ -n $(git stash list 2> /dev/null) ]]; then
+        status_text="Stashed"
+        s_color="211" # スタッシュ
+    elif [[ -n $(echo "$git_status" | grep '^??') ]]; then
+        status_text="Untracked"
+        s_color="211" # 未追跡
+    elif [[ -n $(echo "$git_status" | grep '^.[MARC]') ]]; then
+        status_text="Unstaged"
+        s_color="215" # 変更あり
+    elif [[ -n $(echo "$git_status" | grep '^[MARC]') ]]; then
+        status_text="Staged"
+        s_color="117" # ステージ済
+    fi
+
+    GIT_INFO=" %F{215}${branch}%f%F{242}(%f%F{${s_color}}${status_text}%f%F{242})%f"
+  else
+    GIT_INFO=" %F{242}(Not Git)%f"
+  fi
+}
+
+PS1='%F{242}%n%f %F{181}${PARENT_DIR}%f%F{211}%1~%f${GIT_INFO}
+%F{121}$%f '
 
 ### 4. 便利なエイリアス
 alias p='pnpm'
