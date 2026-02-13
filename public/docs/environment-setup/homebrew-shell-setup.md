@@ -122,7 +122,7 @@ _fnm_auto_setup() {
     if ! command -v pnpm > /dev/null 2>&1; then
       echo "💎 pnpm not found. Enabling via Corepack..."
       corepack enable pnpm >/dev/null 2>&1
-      echo "✅ pnpm を実行パスへ正常にリンクしました。"
+      echo "✅ Linked pnpm to execution path via Corepack."
     else
       echo "🔗 Established pnpm resolution route via Corepack."
     fi
