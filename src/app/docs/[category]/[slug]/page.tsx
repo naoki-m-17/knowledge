@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import Link from "next/link";
 import fs from "fs";
 import path from "path";
@@ -62,6 +63,7 @@ const DocPage: FC<DocPageProps> = async ({ params }) => {
 
 	return (
 		<ReactMarkdown
+			remarkPlugins={[remarkGfm]}
 			components={{
 				a: ({ href, children, ...props }) => {
 					if (!href) {

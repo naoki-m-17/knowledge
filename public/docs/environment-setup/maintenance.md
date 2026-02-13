@@ -18,22 +18,18 @@ brew update && brew upgrade
 
 ### Firebase CLI更新
 
-Firebase CLIを最新版に更新します。
+Firebase CLI はプロジェクトの devDependencies または `pnpm dlx` で使用しているため、プロジェクト内で `pnpm update firebase-tools` を実行するか、`pnpm dlx firebase-tools` 利用時は毎回最新版が取得されます。グローバルインストールはしていないため、brew での更新は不要です。
+
+### fnm更新
+
+fnm は Homebrew でインストールしているため、Homebrew の更新と同時に更新されます。数ヶ月に一度、`brew upgrade` で fnm も含めて更新されます。
 
 ```bash
-brew upgrade firebase-cli
+fnm --version  # 現在のバージョンを確認
+brew upgrade fnm  # 必要に応じて単体で更新
 ```
 
-### Volta更新
-
-Voltaはセルフアップデート機能を搭載しています。数ヶ月に一度、以下で最新版に更新します。
-
-```bash
-volta --version  # 現在のバージョンを確認
-volta upgrade    # 最新版へアップデート
-```
-
-**意味**: Volta本体を最新版に更新します。Node.jsやpnpmのバージョンは各プロジェクトの `package.json` で固定されているため、この更新だけでプロジェクトの動作に影響しません。
+**意味**: fnm 本体を更新しても、Node.js のバージョンは各プロジェクトの `.node-version` で固定されているため、プロジェクトの動作には影響しません。
 
 ## ストレージのクリーンアップ
 
@@ -54,8 +50,8 @@ pnpm store prune
 定期的に、インストール済みのツールのバージョンを確認しておくと、問題の早期発見に役立ちます。
 
 ```bash
-# Voltaのバージョン確認
-volta --version
+# fnmのバージョン確認
+fnm --version
 
 # Node.jsのバージョン確認
 node --version
@@ -63,8 +59,9 @@ node --version
 # pnpmのバージョン確認
 pnpm --version
 
-# Firebase CLIのバージョン確認
-firebase --version
+# Firebase CLI（プロジェクト内 or pnpm dlx）のバージョン確認
+pnpm exec firebase --version
+# または pnpm dlx firebase-tools --version
 
 # Homebrewでインストール済みのパッケージ一覧
 brew list
@@ -88,15 +85,16 @@ Homebrewの初期化が`.zshrc`の最上部に配置されているか確認し�
 cat ~/.zshrc | head -5
 ```
 
-最初の数行に `eval "$(/opt/homebrew/bin/brew shellenv)"` が含まれている必要があります。Voltaを使用している場合は、`VOLTA_HOME` と `PATH` に `$VOLTA_HOME/bin` が含まれていることも確認してください。
+最初の数行に `eval "$(/opt/homebrew/bin/brew shellenv)"` が含まれている必要があります。fnm を使用している場合は、`eval "$(fnm env)"` が設定されていることも確認してください。
 
 ### Node.js環境の完全リセットが必要な場合
 
-Voltaは `~/.volta/` に全てを格納しているため、万が一開発環境が壊れた際は、このフォルダを削除するだけでNode環境だけを完全に初期化できます。OSやHomebrewには影響しません。
+fnm は環境変数 `FNM_DIR` で指定したディレクトリ（未指定時は最新版では `~/.local/share/fnm` がデフォルト）に Node を格納しています。万が一開発環境が壊れた際は、このフォルダを削除するだけで Node 環境だけを完全に初期化できます。OSやHomebrewには影響しません。
 
 ```bash
-rm -rf ~/.volta
+# 本ドキュメントの推奨設定、または最新 fnm のデフォルト
+rm -rf ~/.local/share/fnm
 ```
 
-その後、[Homebrewとシェル環境のセットアップ](./homebrew-shell-setup.md) の Volta インストール手順から再実行してください。
+その後、`.zshrc` の fnm 初期化設定はそのまま残るため、プロジェクトディレクトリに `cd` すれば `.node-version` に基づいて自動再インストールされます。
 

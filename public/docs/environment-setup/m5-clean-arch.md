@@ -9,26 +9,30 @@
 ```
 / (Root)
 ├── opt/
-│   └── homebrew/                # 【汎用ツール特区】Homebrew管理
-│       ├── bin/                 # コマンドのリンク（git, firebase等）が集まる場所
+│   └── homebrew/                # 【汎用ツール特区】Homebrew管理（node由来ツールは入れない）
+│       ├── bin/                 # git, tree, fnm 等の共通ツール
 │       │   ├── brew
 │       │   ├── git
-│       │   ├── firebase         # Firebase CLI (brew install firebase-cli で導入)
+│       │   ├── fnm              # Node.js バージョン管理 (brew install fnm で導入)
 │       │   └── tree             # ディレクトリ構造可視化 (brew install tree で導入)
 │       └── Cellar/              # 各ツールの本体がバージョン別に格納される場所
 │
 └── Users/
     └── matsunaganaoki/          # 【ユーザー領域】 ~/
-        ├── .zshrc               # Voltaのパス設定等、全ての環境設定が記された心臓部
-        ├── .volta/              # 【JS開発特区】VoltaがNode/npm/pnpmを全管理
-        │   ├── bin/             # node, npm, pnpm への入り口（Shim）
-        │   └── tools/           # Node v20, v22 等の実体（全てここに完結）
-        ├── .pnpm-store/         # pnpmのキャッシュ倉庫（Volta管理のpnpmがここを使用）
+        ├── .zshrc               # fnm・Corepack・シェル設定の心臓部
+        ├── .local/
+        │   └── share/
+        │       ├── fnm/            # 【JS開発特区】fnm が Node を管理（FNM_DIR で指定した場合）
+        │       │   └── node-versions/  # Node v20, v22 等の実体
+        │       └── pnpm/
+        │           └── store/      # pnpmのキャッシュ倉庫（store-dirで指定した場合）
         ├── .config/
-        │   └── configstore/     # firebase-cliの認証情報（firebase login で自動作成）
+        │   └── configstore/     # Firebase CLI の認証情報。pnpm exec 等でプロジェクト内から実行しても、
+        │                       # firebase login 時にユーザーのホームに自動作成。1回のログインで全プロジェクト共通
         └── src/                 # 開発プロジェクト（ホームディレクトリ直下に配置）
             └── my-next-app/
-                ├── package.json # Voltaのバージョン情報がvoltaフィールドで自動追記
+                ├── .node-version # fnm が読み取り、自動で Node を切り替え
+                ├── package.json
                 └── node_modules # storeへの「リンク」のみ。実体は置かない
 ```
 
@@ -47,13 +51,13 @@
 
 これで、**「どこに何が入っているか、なぜそれが必要か」**が全て可視化されました。
 
-Voltaを採用することで、**「どのプロジェクトで、どのNodeを使っているか」を一切意識する必要がなくなります。**
+fnm を採用することで、**「どのプロジェクトで、どのNodeを使っているか」を一切意識する必要がなくなります。**
 
 1. プロジェクトに入る
-2. Voltaが `package.json` を見て、裏側で勝手にNodeとpnpmを切り替える
+2. fnm が `.node-version` を見て、裏側で勝手に Node を切り替える（pnpm は Corepack で有効化）
 3. `pnpm install` や `npm run dev` を打つだけ
 
-この「何も考えなくていい状態」こそが、初心者からプロまでが求める理想の開発環境です。`volta pin` コマンドを一度打てば、プロジェクトの定義ファイル自体にバージョンが刻まれるため、「.node-version を作り忘れる」「切り替え忘れる」という事故が物理的に発生しなくなります。
+この「何も考えなくていい状態」こそが、初心者からプロまでが求める理想の開発環境です。`.node-version` をプロジェクトに置いておけば、`cd` のたびに自動で切り替わるため、「.node-version を作り忘れる」「切り替え忘れる」という事故が物理的に発生しなくなります。また、brew には Node 由来のツールを入れず、CLI は pnpm や npx で管理することで、パス競合を避けたクリーンな構成を維持します。
 
 あとは、現在利用中の筐体のターミナルで `cat ~/.zshrc` と打ってみて、ご自身で追加した「alias（エイリアス）」や「環境変数」がないかだけ確認してみてください。もしあれば、それを各セクションのドキュメントに追加すると、使い慣れた操作感も新マシンに移植できます。
 

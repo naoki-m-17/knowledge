@@ -2,6 +2,8 @@
 
 ## 概要
 
+> **コマンドについて**: 本文中の `firebase` コマンドは、[環境構築ドキュメント](../environment-setup/firebase-setup.md) で紹介している `alias firebase='npx firebase-tools'` を設定している場合にそのまま使えます。未設定の場合は `pnpm exec firebase`（プロジェクトに firebase-tools を add している場合）または `pnpm dlx firebase-tools`（一時利用）に読み替えてください。
+
 Firebase App HostingでSecret Managerのシークレットを使用する際、デプロイ時にアクセスできるようにするためには、（個人アカウントではなく）**Firebase App Hostingのバックエンドに権限を付与**する必要があります。
 
 ## ⚠️ よくある間違い
