@@ -129,7 +129,7 @@ _fnm_auto_setup() {
   else
     # プロジェクト外（グローバルコンテキスト）
     local current_version=$(node -v 2>/dev/null)
-    echo "🛠️ Using fnm default (Node $current_version)."
+    echo "😐 Using fnm default (Node $current_version)."
   fi
 }
 
